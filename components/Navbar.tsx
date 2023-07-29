@@ -1,23 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import AuthProviders from "./AuthProviders";
 import { NavLinks } from "@/constants";
+import { getCurrentUser } from "@/lib/session";
+import ProfileMenu from "./ProfileMenu";
 const Navbar = async () => {
-  const session = {};
+  const session: any = await getCurrentUser();
 
   return (
-    <nav className='flexBetween navbar'>
-      <div className='flex-1 flexStart gap-10'>
-        <Link href='/'>
-          <Image
-            src='/logo.svg'
-            width={116}
-            height={43}
-            alt='logo'
-          />
+    <nav className="flexBetween navbar">
+      <div className="flex-1 flexStart gap-10">
+        <Link href="/">
+          <Image src="/logo.svg" width={116} height={43} alt="logo" />
         </Link>
-        <ul className='xl:flex hidden text-small gap-7'>
+        <ul className="xl:flex hidden text-small gap-7">
           {NavLinks.map((link) => (
             <Link href={link.href} key={link.text}>
               {link.text}
@@ -26,11 +22,12 @@ const Navbar = async () => {
         </ul>
       </div>
 
-      <div className='flexCenter gap-4'>
+      <div className="flexCenter gap-4">
         {session ? (
           <>
+            <ProfileMenu session={session} />
             <Link href="/create-project">
-              <button title='Share work' />
+              <button>Share Work</button>
             </Link>
           </>
         ) : (
